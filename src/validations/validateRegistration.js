@@ -5,9 +5,13 @@ function validateRegistration(req, res, next) {
 
   console.log(`name: ${name} --- email: ${email}`);
 
-  if (name === undefined && typeof (name) !== 'string') return res.status(400).json({ message: MESSAGE_ERROR1 });
-  if (email === undefined && typeof (email) !== 'string') return res.status(400).json({ message: MESSAGE_ERROR1 });
+  if (name === undefined && typeof (name) !== 'string') {
+    return res.status(400).json({ message: MESSAGE_ERROR1 });
+  }
 
+  if (email === undefined && typeof (email) !== 'string') {
+    return res.status(400).json({ message: MESSAGE_ERROR1 });
+  }
 
   next();
 }
