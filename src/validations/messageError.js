@@ -1,5 +1,5 @@
 const MESSAGE_ERROR1 = 'Invalid entries. Try again.';
-const MESSAGE_ERROR2 = 'Email already registred';
+const MESSAGE_ERROR2 = 'Email already registered';
 const MESSAGE_ERROR3 = 'All fields must be filled';
 const MESSAGE_ERROR4 = 'Incorrect username or password';
 const MESSAGE_ERROR5 = 'jwt malformed';
