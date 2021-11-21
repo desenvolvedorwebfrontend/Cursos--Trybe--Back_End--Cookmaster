@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../controller/User');
+// const Login = require('../controller/Login');
+const validateLogin = require('../validations/validateLogin');
 const validateRegistration = require('../validations/validateRegistration');
 // const validateRecipe = require('../validations/validateRecipe');
 // const validateToken = require('../validations/validateToken');
@@ -9,7 +11,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => res.send());
 app.post('/users', validateRegistration, User.unique);
-// app.post('/login', (req, res) => res.status().send());
+app.post('/login', validateLogin, (req, res) => res.status().send('teste'));
 // app.post('/recipes', (req, res) => res.status().send());
 // app.get('/recipes', (req, res) => res.status().send());
 // app.get('/recipes:id', (req, res) => res.status().send());
