@@ -1,10 +1,11 @@
-const regex = new RegExp('[a-z]+@[a-z^0-9].[a-z]{2,3}');
-const { MESSAGE_ERROR3, MESSAGE_ERROR4 } = require('./messageError');
+/** @source https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail */
+const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.([a-z]+))?$/i;
+const { MESSAGE_ERROR3 } = require('./messageError');
 
 function testEmail(email) {
   if (email === undefined) return false;
   if (typeof (email) !== 'string') return false;
-  return true;
+  return regex.test(email);
 }
 
 function testPassword(password) {
@@ -18,7 +19,6 @@ function validateLogin(req, res, next) {
   
   if (!testEmail(email)) return res.status(401).json({ message: MESSAGE_ERROR3 });
   if (!testPassword(password)) return res.status(401).json({ message: MESSAGE_ERROR3 });
-  if (regex.test(email)) return res.status(401).json({ message: MESSAGE_ERROR4 });
   next();
 }
 

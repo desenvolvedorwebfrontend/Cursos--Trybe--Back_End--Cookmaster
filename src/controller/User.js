@@ -24,20 +24,21 @@ async function unique(req, res) {
 }
 
 async function access(req, res) {
-  const { name, email, password } = req.body;
+  const { email /** , password */ } = req.body;
+  // const email = 'teste@este.com';
   const userDB = await User.getEmail(email);
   
-  // console.log(userDB);
+  console.log(userDB);
 
-  // if (userDB.length > 0) {
-  //   return res.status(401).json({ message: MESSAGE_ERROR4 });
-  // }
+  if (userDB.length === 0) {
+    return res.status(401).json({ message: MESSAGE_ERROR4 });
+  }
 
-  // try {
-  //   if (email === userDB[0].email) console.log(userDB[0].email);
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  try {
+    if (email === userDB[0].email) console.log('email encontrado');
+  } catch (error) {
+    console.log('email não encontrado');
+  }
 
   return res.status(200).send('aprovado no validateLogins');
 }
