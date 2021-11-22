@@ -28,14 +28,15 @@ async function unique(req, res) {
 }
 
 async function access(req, res) {
-  const { email, password } = req.body;
+  const { email, name, password } = req.body;
   const userDB = await User.getEmail(email);
-  
-  const token = jwt.sign({ data: { email, password } }, secret, jwtConfig);
 
   try {
     if (email === userDB[0].email) console.log('email ok');
     if (password === userDB[0].password) console.log('senha ok');
+
+    const { _id } = userDB[0];
+    const token = jwt.sign({ data: { _id, email, name, password } }, secret, jwtConfig);
 
     return res.status(200).json({ token });
   } catch (error) {
