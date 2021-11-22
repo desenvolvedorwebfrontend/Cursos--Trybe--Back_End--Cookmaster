@@ -1,11 +1,11 @@
-const { MESSAGE_ERROR2 } = require('../validations/messageError');
+const { MESSAGE_ERROR2, MESSAGE_ERROR4 } = require('../validations/messageError');
 const User = require('../model/User');
 
 async function unique(req, res) {
   const { name, email, password } = req.body;
-  const userDb = await User.getEmail(email);
+  const userDB = await User.getEmail(email);
 
-  if (userDb.length > 0) {
+  if (userDB.length > 0) {
     return res.status(409).json({ message: MESSAGE_ERROR2 });
   }
   const userCreated = await User.createUser(email, password, name);
@@ -23,6 +23,26 @@ async function unique(req, res) {
   );
 }
 
+async function access(req, res) {
+  const { name, email, password } = req.body;
+  const userDB = await User.getEmail(email);
+  
+  // console.log(userDB);
+
+  // if (userDB.length > 0) {
+  //   return res.status(401).json({ message: MESSAGE_ERROR4 });
+  // }
+
+  // try {
+  //   if (email === userDB[0].email) console.log(userDB[0].email);
+  // } catch (error) {
+  //   console.log(error);
+  // }
+
+  return res.status(200).send('aprovado no validateLogins');
+}
+
 module.exports = {
   unique,
+  access,
 };
