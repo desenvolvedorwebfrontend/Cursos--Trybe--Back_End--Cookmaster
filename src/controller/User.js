@@ -1,5 +1,9 @@
+const jwt = require('jsonwebtoken');
 const { MESSAGE_ERROR2, MESSAGE_ERROR4 } = require('../validations/messageError');
 const User = require('../model/User');
+
+const secret = 'tRMf8%%^YNfsfxLqQuGIg';
+const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
 
 async function unique(req, res) {
   const { name, email, password } = req.body;
@@ -24,23 +28,19 @@ async function unique(req, res) {
 }
 
 async function access(req, res) {
-  const { email /** , password */ } = req.body;
-  // const email = 'teste@este.com';
+  const { email, password } = req.body;
   const userDB = await User.getEmail(email);
   
-  console.log(userDB);
-
-  if (userDB.length === 0) {
-    return res.status(401).json({ message: MESSAGE_ERROR4 });
-  }
+  const token = jwt.sign({ data: { email, password } }, secret, jwtConfig);
 
   try {
-    if (email === userDB[0].email) console.log('email encontrado');
-  } catch (error) {
-    console.log('email não encontrado');
-  }
+    if (email === userDB[0].email) console.log('email ok');
+    if (password === userDB[0].password) console.log('senha ok');
 
-  return res.status(200).send('aprovado no validateLogins');
+    return res.status(200).json({ token });
+  } catch (error) {
+    return res.status(401).json({ message: MESSAGE_ERROR4 });
+  }
 }
 
 module.exports = {
