@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 async function listRecipes() {
@@ -7,8 +7,18 @@ async function listRecipes() {
   .then((result) => result);
 }
 
+// /** Busca produto por ID */
+async function getById(id) {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection()
+    .then((db) => db.collection('recipes').findOne(new ObjectId(id)))
+    .then((result) => result);
+}
+
 module.exports = {
   listRecipes,
+  getById,
 };
 
 // /** Busca todos os produtos do banco. */
@@ -16,15 +26,6 @@ module.exports = {
 //   return connection()
 //     .then((db) => db.collection('recipes').find().toArray())
 //     .then((product) => product.map(({ _id, name, quantity }) => ({ _id, name, quantity })));
-// }
-
-// /** Busca produto por ID */
-// async function getById(id) {
-//   if (!ObjectId.isValid(id)) return null;
-
-//   return connection()
-//     .then((db) => db.collection('recipes').findOne(new ObjectId(id)))
-//     .then((product) => product);
 // }
 
 // /** Cria os produtos do banco. */ 
