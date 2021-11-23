@@ -54,10 +54,17 @@ async function image(req, res) {
   return res.status(200).json(recipe);
 }
 
+const imageRender = async (req, res) => {
+  const { id } = req.params;
+  const url = `./uploads/${id}`;
+  return res.status(200).send(url);
+}; 
+
 module.exports = {
   listRecipes,
   getById,
   updateById,
   deleteById,
   image,
+  imageRender,
 };
