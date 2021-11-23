@@ -53,7 +53,7 @@ async function recipeCreated(req, res) {
   
   const { _id } = userDB.ops[0];
 
-  console.log(userDB.ops[0]);
+  // console.log(req.body);
 
   return res.status(201).json({
     recipe: {

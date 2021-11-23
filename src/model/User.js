@@ -12,9 +12,9 @@ async function createUser(email, password, name) {
     .then((result) => (result));
 }
 
-async function recipeCreated({ name, ingredients, preparation, userId }) {
+async function recipeCreated(data) {
   return connection()
-    .then((db) => db.collection('users').insertOne({ name, ingredients, preparation, userId }))
+    .then((db) => db.collection('recipes').insertOne(data))
     .then((result) => (result));
 }
 

@@ -1,65 +1,66 @@
-const { ObjectId } = require('mongodb');
+// const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-/** Busca todos os produtos do banco. */
-async function getAll() {
+async function listRecipes() {
   return connection()
-    .then((db) => db.collection('recipes').find().toArray())
-    .then((product) => product.map(({ _id, name, quantity }) => ({ _id, name, quantity })));
-}
-
-/** Busca produto por ID */
-async function getById(id) {
-  if (!ObjectId.isValid(id)) return null;
-
-  return connection()
-    .then((db) => db.collection('recipes').findOne(new ObjectId(id)))
-    .then((product) => product);
-}
-
-/** Cria os produtos do banco. */ 
-async function create(name, quantity) {
-  return connection()
-    .then((db) => db.collection('recipes').insertOne({ name, quantity }))
-    .then((product) => product.ops[0]);
-}
-
-/** Busca pelo Nome */
-async function findByName(name) {
-  return connection()
-  .then((db) => db.collection('recipes').findOne({ name }));
-}
-
-/** Atualiza pelo ID */
-async function updateById({ id, name, quantity }) {
-  if (!ObjectId.isValid(id)) return null;
-
-  return connection()
-  .then((db) => db.collection('recipes')
-    .updateOne(
-      { id: `${ObjectId(id)}` },
-      { $set: { name, quantity } },
-      { _id: 1, name: 1, quanitty: 1 },
-    ));
-}
-
-/** Exclui produto por ID */
-async function deleteById(id) {
-  if (!ObjectId.isValid(id)) return null;
-
-  return connection()
-  .then((db) => db.collection('recipes')
-    .deleteOne({ _id: new ObjectId(id) }));
+  .then((db) => db.collection('recipes').find({}).toArray())
+  .then((result) => result);
 }
 
 module.exports = {
-  getAll,
-  getById,
-  create,
-  findByName,
-  updateById,
-  deleteById,
+  listRecipes,
 };
+
+// /** Busca todos os produtos do banco. */
+// async function getAll() {
+//   return connection()
+//     .then((db) => db.collection('recipes').find().toArray())
+//     .then((product) => product.map(({ _id, name, quantity }) => ({ _id, name, quantity })));
+// }
+
+// /** Busca produto por ID */
+// async function getById(id) {
+//   if (!ObjectId.isValid(id)) return null;
+
+//   return connection()
+//     .then((db) => db.collection('recipes').findOne(new ObjectId(id)))
+//     .then((product) => product);
+// }
+
+// /** Cria os produtos do banco. */ 
+// async function create(name, quantity) {
+//   return connection()
+//     .then((db) => db.collection('recipes').insertOne({ name, quantity }))
+//     .then((product) => product.ops[0]);
+// }
+
+// /** Busca pelo Nome */
+// async function findByName(name) {
+//   return connection()
+//   .then((db) => db.collection('recipes').findOne({ name }));
+// }
+
+// /** Atualiza pelo ID */
+// async function updateById({ id, name, quantity }) {
+//   if (!ObjectId.isValid(id)) return null;
+
+//   return connection()
+//   .then((db) => db.collection('recipes')
+//     .updateOne(
+//       { id: `${ObjectId(id)}` },
+//       { $set: { name, quantity } },
+//       { _id: 1, name: 1, quanitty: 1 },
+//     ));
+// }
+
+// /** Exclui produto por ID */
+// async function deleteById(id) {
+//   if (!ObjectId.isValid(id)) return null;
+
+//   return connection()
+//   .then((db) => db.collection('recipes')
+//     .deleteOne({ _id: new ObjectId(id) }));
+// }
 
 // const findByName = async (firstName, middleName, lastName) => {
 //   // Determinamos se devemos buscar com ou sem o nome do meio
