@@ -33,7 +33,7 @@ describe('Requisito 1 - Teste criação de usuário', () => {
         expect(response.body).to.have.property('user');
       });
       it('a chave "user" contem as propriedades "name", "email", "role" e "id"', () => {
-        expect(response.body.user).to.have.all.keys('name', 'email', 'role', 'id');
+        expect(response.body.user).to.have.all.keys('name', 'email', 'role');
       });
       it('a chave "role" deve possuir o valor "user"', () => {
         expect(response.body.user.role).to.be.equal('user');
