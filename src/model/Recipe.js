@@ -30,10 +30,20 @@ async function updateById({ name, ingredients, preparation, id, userId }) {
     ));
 }
 
+/** Exclui produto por ID */
+async function deleteById(id) {
+  if (!ObjectId.isValid(id)) return null;
+
+  return connection()
+  .then((db) => db.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) }));
+}
+
 module.exports = {
   listRecipes,
   getById,
   updateById,
+  deleteById,
 };
 
 // /** Busca todos os produtos do banco. */
@@ -54,15 +64,6 @@ module.exports = {
 // async function findByName(name) {
 //   return connection()
 //   .then((db) => db.collection('recipes').findOne({ name }));
-// }
-
-// /** Exclui produto por ID */
-// async function deleteById(id) {
-//   if (!ObjectId.isValid(id)) return null;
-
-//   return connection()
-//   .then((db) => db.collection('recipes')
-//     .deleteOne({ _id: new ObjectId(id) }));
 // }
 
 // const findByName = async (firstName, middleName, lastName) => {

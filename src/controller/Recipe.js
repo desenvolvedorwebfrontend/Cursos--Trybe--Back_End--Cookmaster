@@ -24,20 +24,22 @@ async function updateById(req, res) {
     const { name, ingredients, preparation } = req.body;
     const { _id: userId } = req.user[0];
     const update = await Recipe.updateById({ name, ingredients, preparation, id, userId });
-    console.log(update.value);
     return res.status(200).json(update.value);
     } catch (error) {
     return res.status(500).json({ message: 'error 50' });
     }
 }
 
-async function exclude(req, res) {
-  res.status(200).send('ok');
+async function deleteById(req, res) {
+  const { id } = req.params;
+
+  const result = await Recipe.deleteById(id);
+  res.status(204).send(result);
 }
 
 module.exports = {
   listRecipes,
   getById,
   updateById,
-  exclude,
+  deleteById,
 };
