@@ -5,6 +5,7 @@ const validateLogin = require('../validations/validateLogin');
 const validateRegistration = require('../validations/validateRegistration');
 const validateToken = require('../validations/validateToken');
 const validateRecipe = require('../validations/validateRecipe');
+const validateAdmin = require('../validations/validateAdmin');
 
 const app = express();
 app.use(express.json());
@@ -15,7 +16,7 @@ app.get('/recipes/:id', Recipe.getById);
 app.post('/users', validateRegistration, User.unique);
 app.post('/login', validateLogin, User.access);
 app.post('/recipes', validateToken, validateRecipe, User.recipeCreated);
-// app.patch('/recipes:id', (req, res) => res.status().send());
+app.patch('/recipes:id', validateToken, validateAdmin, (req, res) => res.status().send());
 // app.delete('/recipes:id', (req, res) => res.status().send());
 // app.get('/recipes:id/image', (req, res) => res.status().send());
 // app.post('/recipes:id/image', (req, res) => res.status().send());

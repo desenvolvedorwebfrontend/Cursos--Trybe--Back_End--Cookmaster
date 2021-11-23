@@ -1,13 +1,14 @@
 // validateJWT.js
 const jwt = require('jsonwebtoken');
 const User = require('../model/User');
+const { MESSAGE_ERROR7 } = require('./messageError');
 
 const segredo = 'tRMf8%%^YNfsfxLqQuGIg';
 
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
 
-  if (!token) return res.status(401).json({ error: 'Token não encontrado' });
+  if (!token) return res.status(401).json({ message: MESSAGE_ERROR7 });
 
   try {
     const decoded = jwt.verify(token, segredo);
