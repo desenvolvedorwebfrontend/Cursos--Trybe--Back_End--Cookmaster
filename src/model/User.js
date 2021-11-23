@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 async function getEmail(email) {
@@ -18,8 +19,16 @@ async function recipeCreated(data) {
     .then((result) => (result));
 }
 
+async function uploadFile(id, image) {
+  return connection()
+    .then((db) => db.collection('recipes')
+      .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { image } }))
+    .then((result) => ({ ...result.value, image }));
+}
+
 module.exports = {
   getEmail,
   createUser,
   recipeCreated,
+  uploadFile,
 };
