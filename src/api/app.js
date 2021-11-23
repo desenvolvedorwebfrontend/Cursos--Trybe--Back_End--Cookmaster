@@ -7,6 +7,7 @@ const validateRegistration = require('../validations/validateRegistration');
 const validateToken = require('../validations/validateToken');
 const validateRecipe = require('../validations/validateRecipe');
 const upload = require('../validations/uploadImage');
+const validateAdmin = require('../validations/validateAdmin');
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,6 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.put('/recipes/:id/image', upload.upload.single('image'), validateToken, Recipe.image);
 app.get('/images/:id', Recipe.imageRender);
 // app.get('/recipes/:id/image', validateToken, (req, res) => res.status().send());
-// app.get('/users/admin', (req, res) => res.status().send());
+app.post('/users/admin', validateToken, validateAdmin, User.admin);
 
 module.exports = app;

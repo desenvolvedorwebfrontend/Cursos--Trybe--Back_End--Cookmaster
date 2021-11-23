@@ -50,7 +50,7 @@ async function recipeCreated(req, res) {
   const decoded = jwt.verify(token, secret);
   const { _id: userId } = decoded.data;
   const userDB = await User.recipeCreated({ name, ingredients, preparation, userId });
-  
+
   const { _id } = userDB.ops[0];
 
   return res.status(201).json({
@@ -64,8 +64,25 @@ async function recipeCreated(req, res) {
   });
 }
 
+async function admin(req, res) {
+  const { name, email, password } = req.body;
+  const result = await User.createAdmin({ name, email, password });
+  const { name: nameDB, email: emailDB, _id } = result.ops[0];
+  return res.status(201).send(
+    {
+      user: {
+        name: nameDB,
+        email: emailDB,
+        role: 'admin',
+        _id,
+      },
+    },
+  );
+}
+
 module.exports = {
   unique,
   access,
   recipeCreated,
+  admin,
 };

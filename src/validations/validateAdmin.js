@@ -1,19 +1,11 @@
-const jwt = require('jsonwebtoken');
-const User = require('../model/User');
+// const jwt = require('jsonwebtoken');
+// const User = require('../model/User');
+const { MESSAGE_ERROR8 } = require('./messageError');
 
-const segredo = 'tRMf8%%^YNfsfxLqQuGIg';
-
-const validateAdmin = async (req, res, next) => {
-  const token = req.headers.authorization;
-
-  try {
-    const decoded = jwt.verify(token, segredo);
-    const user = await User.getEmail(decoded.data.email);
-    
-    if (user[0].role === 'admin') next();
-  } catch (err) {
-    return res.status(401).json({ message: err.message });
-  }
-}; 
+function validateAdmin(req, res, next) {
+  if (req.user[0].role !== 'admin') {
+    return res.status(403).send({ message: MESSAGE_ERROR8 });
+  } next();
+}
 
 module.exports = validateAdmin;

@@ -26,9 +26,16 @@ async function uploadFile(id, image) {
     .then((result) => ({ ...result.value, image }));
 }
 
+async function createAdmin({ name, email, password }) {
+  return connection()
+    .then((db) => db.collection('users').insertOne({ email, password, name, role: 'admin' }))
+    .then((result) => (result));
+}
+
 module.exports = {
   getEmail,
   createUser,
   recipeCreated,
   uploadFile,
+  createAdmin,
 };
