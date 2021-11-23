@@ -43,8 +43,6 @@ module.exports = async (req, res, next) => {
     const { _id: userId } = user[0];
     const { _id: idDecoded } = decoded.data;
 
-    console.log(userId);
-
     /* Não existe um usuário na nossa base com o id informado no token. */
     if (userId === idDecoded) {
       return res

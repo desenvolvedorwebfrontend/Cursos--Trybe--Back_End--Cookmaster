@@ -32,8 +32,8 @@ async function access(req, res) {
   const userDB = await User.getEmail(email);
 
   try {
-    if (email === userDB[0].email) console.log('email ok');
-    if (password === userDB[0].password) console.log('senha ok');
+    if (email === userDB[0].email) console.log('\n');
+    if (password === userDB[0].password) console.log('\n');
 
     const { _id } = userDB[0];
     const token = jwt.sign({ data: { _id, email, name, password } }, secret, jwtConfig);
@@ -44,7 +44,30 @@ async function access(req, res) {
   }
 }
 
+async function recipeCreated(req, res) {
+  const { name, ingredients, preparation } = req.body;
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, secret);
+  const { _id: userId } = decoded.data;
+  const userDB = await User.recipeCreated({ name, ingredients, preparation, userId });
+  
+  const { _id } = userDB.ops[0];
+
+  console.log(userDB.ops[0]);
+
+  return res.status(201).json({
+    recipe: {
+      name,
+      ingredients,
+      preparation,
+      userId,
+      _id: _id.toString(),
+    },
+  });
+}
+
 module.exports = {
   unique,
   access,
+  recipeCreated,
 };

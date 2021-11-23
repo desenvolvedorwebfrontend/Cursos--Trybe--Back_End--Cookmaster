@@ -11,7 +11,7 @@ app.use(express.json());
 app.get('/', (req, res) => res.send());
 app.post('/users', validateRegistration, User.unique);
 app.post('/login', validateLogin, User.access);
-app.post('/recipes', validateToken, validateRecipe, (req, res) => res.status().send('ok'));
+app.post('/recipes', validateToken, validateRecipe, User.recipeCreated);
 // app.get('/recipes', (req, res) => res.status().send());
 // app.get('/recipes:id', (req, res) => res.status().send());
 // app.patch('/recipes:id', (req, res) => res.status().send());
