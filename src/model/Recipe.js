@@ -16,9 +16,24 @@ async function getById(id) {
     .then((result) => result);
 }
 
+// /** Atualiza pelo ID */
+async function updateById({ name, ingredients, preparation, id, userId }) {
+  if (!ObjectId.isValid(id)) return null;
+  console.log('id req param:', id);
+  console.log('id req user:', userId);
+
+  return connection()
+  .then((db) => db.collection('recipes').findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: { userId, name, ingredients, preparation } },
+      { returnOriginal: false },
+    ));
+}
+
 module.exports = {
   listRecipes,
   getById,
+  updateById,
 };
 
 // /** Busca todos os produtos do banco. */
@@ -39,19 +54,6 @@ module.exports = {
 // async function findByName(name) {
 //   return connection()
 //   .then((db) => db.collection('recipes').findOne({ name }));
-// }
-
-// /** Atualiza pelo ID */
-// async function updateById({ id, name, quantity }) {
-//   if (!ObjectId.isValid(id)) return null;
-
-//   return connection()
-//   .then((db) => db.collection('recipes')
-//     .updateOne(
-//       { id: `${ObjectId(id)}` },
-//       { $set: { name, quantity } },
-//       { _id: 1, name: 1, quanitty: 1 },
-//     ));
 // }
 
 // /** Exclui produto por ID */
